@@ -8,3 +8,4 @@ qdrant-client
 langchain-qdrant
 langchain-mistralai
 pymupdf
+streamlit
