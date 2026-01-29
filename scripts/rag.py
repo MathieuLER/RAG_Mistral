@@ -47,6 +47,7 @@ embeddings = MistralAIEmbeddings(model="mistral-embed")
 client = QdrantClient(":memory:")
 
 #vector_size = len(embeddings.embed_query("sample text"))
+# Taille des vecteurs d'embedding Mistral (par défaut 1024)
 vector_size = 1024
 # Crée une collection si elle n'existe pas déjà
 if not client.collection_exists(collection_name):
@@ -78,12 +79,6 @@ def extraire_urls_pdf(chemin_pdf):
 
         doc.close()
         return list(urls)
-
-
-"""# Exemple d'utilisation
-chemin_pdf = "../papers/"
-urls_references = extraire_urls_pdf(chemin_pdf)
-print(f"URLs trouvées : {urls_references}")"""
 
 
 # Charger documents PDF, texte ou pages web
