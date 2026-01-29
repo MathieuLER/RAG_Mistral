@@ -16,14 +16,19 @@ from langchain.agents import create_agent
 from langchain.agents.middleware import SummarizationMiddleware
 from langgraph.checkpoint.memory import InMemorySaver
 from langchain_core.runnables import RunnableConfig
+
 # Récupère le token depuis l'environnement (définie par le workflow)
 HF_TOKEN = os.environ.get("HF_TOKEN")
 if not HF_TOKEN:
     raise ValueError("HF_TOKEN environment variable is not set")
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = HF_TOKEN
 
-# Variables globales
+MISTRALAI_API_KEY = os.environ.get("MISTRALAI_API_KEY")
+if not MISTRALAI_API_KEY:
+    raise ValueError("MISTRAL_TOKEN environment variable is not set")
+os.environ["MISTRALAI_API_KEY"] = MISTRALAI_API_KEY
 
+# Variables globales
 collection_name = "streamlit_rag_pdf"
 
 # Initialisation du modèle Mistral via HuggingFace Endpoint
@@ -34,12 +39,6 @@ llm = HuggingFaceEndpoint(
 )
 # Création du modèle de chat avec LangChain
 model = ChatHuggingFace(llm=llm)
-
-#
-MISTRAL_TOKEN = os.environ.get("MISTRAL_TOKEN")
-if not MISTRAL_TOKEN:
-    raise ValueError("MISTRAL_TOKEN environment variable is not set")
-os.environ["MISTRALAI_API_KEY"] = MISTRAL_TOKEN
 
 # Initialise les embeddings
 embeddings = MistralAIEmbeddings(model="mistral-embed")
