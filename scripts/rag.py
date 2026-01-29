@@ -29,7 +29,7 @@ if not MISTRAL_API_KEY:
 os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
 
 # Variables globales
-collection_name = "streamlit_rag_pdf"
+collection_name = "streamlit_rag_mistral"
 
 # Initialisation du modèle Mistral via HuggingFace Endpoint
 llm = HuggingFaceEndpoint(
