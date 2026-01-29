@@ -23,10 +23,10 @@ if not HF_TOKEN:
     raise ValueError("HF_TOKEN environment variable is not set")
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = HF_TOKEN
 
-MISTRALAI_API_KEY = os.environ.get("MISTRALAI_API_KEY")
-if not MISTRALAI_API_KEY:
-    raise ValueError("MISTRAL_TOKEN environment variable is not set")
-os.environ["MISTRALAI_API_KEY"] = MISTRALAI_API_KEY
+MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY")
+if not MISTRAL_API_KEY:
+    raise ValueError("MISTRAL_API_KEY environment variable is not set")
+os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
 
 # Variables globales
 collection_name = "streamlit_rag_pdf"
