@@ -29,13 +29,13 @@ if not MISTRAL_API_KEY:
 os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
 
 # Variables globales
-collection_name = "streamlit_rag_mistral"
+collection_name = "rag_mistral"
 
 # Initialisation du modèle Mistral via HuggingFace Endpoint
 llm = HuggingFaceEndpoint(
     repo_id="mistralai/Mistral-7B-Instruct-v0.2",
     temperature=0.7,
-    max_length=1536,
+    max_length=1024,
 )
 # Création du modèle de chat avec LangChain
 model = ChatHuggingFace(llm=llm)
@@ -47,7 +47,7 @@ embeddings = MistralAIEmbeddings(model="mistral-embed")
 client = QdrantClient(":memory:")
 
 #vector_size = len(embeddings.embed_query("sample text"))
-vector_size = 1536
+vector_size = 1024
 # Crée une collection si elle n'existe pas déjà
 if not client.collection_exists(collection_name):
     client.create_collection(
