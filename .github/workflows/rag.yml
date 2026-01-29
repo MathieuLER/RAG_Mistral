@@ -14,5 +14,5 @@ jobs:
       - name: Exécuter le script RAG
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          MISTRAL_TOKEN: ${{ secrets.MISTRAL_TOKEN }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
         run: python scripts/rag.py
