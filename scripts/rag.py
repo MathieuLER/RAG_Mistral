@@ -35,7 +35,7 @@ collection_name = "streamlit_rag_pdf"
 llm = HuggingFaceEndpoint(
     repo_id="mistralai/Mistral-7B-Instruct-v0.2",
     temperature=0.7,
-    max_length=1024,
+    max_length=1536,
 )
 # Création du modèle de chat avec LangChain
 model = ChatHuggingFace(llm=llm)
