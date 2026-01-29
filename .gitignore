@@ -1,0 +1,9 @@
+# Environnement Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Données et logs
+data/
+*.log

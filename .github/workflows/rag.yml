@@ -1,0 +1,18 @@
+name: Test RAG Pipeline
+
+on: [push]  # Déclenche le workflow à chaque commit
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Machine virtuelle fournie par GitHub
+    steps:
+      - uses: actions/checkout@v4  # Récupère ton code
+
+      - name: Installer les dépendances
+        run:  pip install -r requirements.txt
+
+      - name: Exécuter le script RAG
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        run: python scripts/rag.py
