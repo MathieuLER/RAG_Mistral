@@ -9,7 +9,7 @@ Ce projet utilise une stack technique composée de Mistral 7B pour le modèle de
 ### Avertissement
 Vous devez créer un compte sur HuggingFace et générer un token en lecture : `HF_TOKEN`
 Vous devez créer un compte sur Mistral et générer un API token :
-`MISTRAL_TOKEN`
+`MISTRAL_API_KEY`
 
 ** Token gratuits mais soumis à un quota d'utilisation **
 
