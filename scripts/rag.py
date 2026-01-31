@@ -85,27 +85,27 @@ def load_document(uploaded_file) -> List[Document]:
     
     for file in uploaded_file:
         file_ext = file.split(".")[1]
-    try:
-        if file.endswith(".pdf"):
-            loader_pdf = PyPDFLoader(file)
-            documents = loader_pdf.load()
-            for url in extraire_urls_pdf(file):
-                try:
-                    web_loader = WebBaseLoader(url)
-                    web_ref = web_loader.load()
-                    documents.extend(web_ref)
-                except Exception as e:
-                    print(f"Error loading URL {url}: {e}")
+        try:
+            if file.endswith(".pdf"):
+                loader_pdf = PyPDFLoader(file)
+                documents = loader_pdf.load()
+                for url in extraire_urls_pdf(file):
+                    try:
+                        web_loader = WebBaseLoader(url)
+                        web_ref = web_loader.load()
+                        documents.extend(web_ref)
+                    except Exception as e:
+                        print(f"Error loading URL {url}: {e}")
 
-        elif file.endswith(".txt"):
-            loader = TextLoader(file, encoding="utf-8")
-            documents = loader.load()
-        else:
-            raise ValueError(f"Unsupported file type: {file_ext}")
+            elif file.endswith(".txt"):
+                loader = TextLoader(file, encoding="utf-8")
+                documents = loader.load()
+            else:
+                raise ValueError(f"Unsupported file type: {file_ext}")
 
-        return documents
-    except Exception as e:
-        raise Exception(f"Error loading document {file}: {str(e)}")
+            return documents
+        except Exception as e:
+            raise Exception(f"Error loading document {file}: {str(e)}")
 
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,  # chunk size (characters)
