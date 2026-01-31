@@ -6,17 +6,13 @@ from scripts.rag import load_document, vector_store, text_splitter, agent, confi
 st.title("Outil d'aide à la recherche documentaire pour des articles scientifiques")
 
 # Upload de fichier
-uploaded_file = st.file_uploader("Upload an image", type=["pdf", "txt"])
+uploaded_file = st.file_uploader("Télécharger un fichier PDF ou TXT", type=["pdf", "txt"], accept_multiple_files=True)
 
 if uploaded_file is not None:
-    # Sauvegarde du fichier téléchargé
-    file_path = os.path.join("temp", uploaded_file.name)
-    os.makedirs("temp", exist_ok=True)
-    with open(file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
+    
 
     # Chargement du document
-    documents = load_document(file_path)
+    documents = load_document(uploaded_file)
 
     # Division du document en chunks
     all_splits = text_splitter.split_documents(documents)
