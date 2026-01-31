@@ -27,6 +27,7 @@ if not MISTRAL_API_KEY:
     raise ValueError("MISTRAL_API_KEY environment variable is not set")
 os.environ["MISTRAL_API_KEY"] = MISTRAL_API_KEY
 
+
 # Variables globales
 collection_name = "rag_mistral"
 
@@ -61,34 +62,34 @@ vector_store = QdrantVectorStore(
 
 # Extraire les références des articles PDF
 
-def extraire_urls_pdf(chemin_pdf):
-    data_dir = os.path.dirname(chemin_pdf)
-    liste_fichiers = [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith('.pdf')]
+def extraire_urls_pdf(file, type=["pdf", "txt"]) -> List[str]:
+
     """Extrait toutes les URLs d'un PDF, y compris dans les références."""
-    for fichier in liste_fichiers:
-        doc = fitz.open(fichier)
-        urls = set()  # Utiliser un set pour éviter les doublons
+    
+    doc = fitz.open(stream=file.read(), filetype=type)
+    urls = set()  # Utiliser un set pour éviter les doublons
 
-        for page in doc:
-            # Extraire les liens de la page (y compris les références)
-            for link in page.get_links():
-                if "uri" in link:  # Vérifie si le lien est une URL
-                    urls.add(link["uri"])
+    for page in doc:
+    # Extraire les liens de la page (y compris les références)
+        for link in page.get_links():
+            if "uri" in link:  # Vérifie si le lien est une URL
+                urls.add(link["uri"])
 
-        doc.close()
-        return list(urls)
+    doc.close()
+    return list(urls)
 
 # Charger documents PDF, texte ou pages web
 
-def load_document(file_path: str) -> List[Document]:
+def load_document(uploaded_file) -> List[Document]:
     """Load a document based on its file extension"""
-    file_ext = Path(file_path).suffix.lower()
-
+    
+    for file in uploaded_file:
+        file_ext = file.split(".")[1]
     try:
-        if file_ext == ".pdf":
-            loader_pdf = PyPDFLoader(file_path)
+        if file.endswith(".pdf"):
+            loader_pdf = PyPDFLoader(file)
             documents = loader_pdf.load()
-            for url in extraire_urls_pdf(file_path):
+            for url in extraire_urls_pdf(file):
                 try:
                     web_loader = WebBaseLoader(url)
                     web_ref = web_loader.load()
@@ -96,15 +97,15 @@ def load_document(file_path: str) -> List[Document]:
                 except Exception as e:
                     print(f"Error loading URL {url}: {e}")
 
-        elif file_ext == ".txt":
-            loader = TextLoader(file_path, encoding="utf-8")
+        elif file.endswith(".txt"):
+            loader = TextLoader(file, encoding="utf-8")
             documents = loader.load()
         else:
             raise ValueError(f"Unsupported file type: {file_ext}")
 
         return documents
     except Exception as e:
-        raise Exception(f"Error loading document {file_path}: {str(e)}")
+        raise Exception(f"Error loading document {file}: {str(e)}")
 
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,  # chunk size (characters)
